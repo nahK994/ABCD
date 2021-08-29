@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TeacherComponent } from './teacher.component';
 import { TeacherRoutingModule } from './teacher-routing.module';
+import { MatCardModule } from '@angular/material/card';
 
 
 
@@ -9,7 +10,8 @@ import { TeacherRoutingModule } from './teacher-routing.module';
   declarations: [TeacherComponent],
   imports: [
     CommonModule,
-    TeacherRoutingModule
+    TeacherRoutingModule,
+    MatCardModule
   ]
 })
 export class TeacherModule { }
