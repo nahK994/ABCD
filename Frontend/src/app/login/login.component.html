@@ -1,18 +1,22 @@
 <div style="width: 100%; height: 100%;" class="center-align">
-    <mat-card class="card center-align" style="width: 50%;">
+    <mat-card class="card center-align" style="width: 50%;" [formGroup]="form">
         <mat-form-field style="width: 50%;">
-            <mat-label>User Name</mat-label>
-            <input matInput>
+            <input matInput placeholder="User Name" formControlName="userName">
         </mat-form-field>
         <mat-form-field style="width: 50%;">
-            <mat-label>Password</mat-label>
-            <input matInput>
+            <input matInput placeholder="Password" formControlName="password">
         </mat-form-field>
         <mat-form-field style="width: 50%;">
             <mat-label>User Type</mat-label>
-            <input matInput>
+            <mat-select formControlName="userType">
+                <mat-option value="teacher">Teacher</mat-option>
+                <mat-option value="student">Student</mat-option>
+            </mat-select>
         </mat-form-field>
-        <button mat-raised-button color="primary">Submit</button>
-        <button mat-button color="primary" style="margin-top: 12px;">Create a new account</button>
+        <button style="margin-top: 12px;" mat-raised-button color="primary" (click)="submit()">Submit</button>
+        <div class="create-new-account">
+            <button mat-button color="primary" style="margin-top: 12px;" (click)="createNewTeacher()">Create account as a teacher</button>
+            <button mat-button color="primary" style="margin-top: 12px;" (click)="createNewStudent()">Create account as a student</button>
+        </div>
     </mat-card>
 </div>
