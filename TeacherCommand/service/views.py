@@ -2,6 +2,7 @@ from rest_framework import viewsets, status
 from rest_framework.response import Response
 
 from .models import TeacherCommand
+from .eventPublisher import publish
 
 class TeacherViewSet(viewsets.ViewSet):
     def getList(self, request):
@@ -18,8 +19,15 @@ class TeacherViewSet(viewsets.ViewSet):
             response.append(aa)
         return Response(response, status=status.HTTP_200_OK)
 
-    def create(self, request):
+    def processEvent(self, request):
         data = request.data
         teacher = TeacherCommand(teacherId=data['teacherId'], userName=data['userName'], email=data['email'], password=data['password'])
+        event = {
+            'teacherId': data['teacherId'],
+            'userName': data['userName'],
+            'email': data['email'],
+            'password': data['password']
+        }
+        publish(event)
         teacher.save()
         return Response(data, status=status.HTTP_201_CREATED)

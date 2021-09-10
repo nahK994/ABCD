@@ -4,7 +4,7 @@ from .views import *
 
 urlpatterns = [
     path('teacher/', TeacherViewSet.as_view({
-        'post': 'create'
+        'post': 'processEvent'
     })),
     path('teachers/', TeacherViewSet.as_view({
         'get': 'getList'
