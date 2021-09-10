@@ -1,15 +1,16 @@
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 
-from .models import Teacher
+from .models import TeacherCommand
 
 class TeacherViewSet(viewsets.ViewSet):
     def getList(self, request):
-        teachers = Teacher.objects.all()
+        teachers = TeacherCommand.objects.all()
         response = []
         for teacher in teachers:
             aa = {
-                'itemId': teacher.itemId,
+                'eventId': teacher.eventId,
+                'teacherId': teacher.teacherId,
                 'email': teacher.email,
                 'password': teacher.password,
                 'userName': teacher.userName
@@ -19,6 +20,6 @@ class TeacherViewSet(viewsets.ViewSet):
 
     def create(self, request):
         data = request.data
-        teacher = Teacher(itemId=data['itemId'], userName=data['userName'], email=data['email'], password=data['password'])
+        teacher = TeacherCommand(teacherId=data['teacherId'], userName=data['userName'], email=data['email'], password=data['password'])
         teacher.save()
         return Response(data, status=status.HTTP_201_CREATED)
