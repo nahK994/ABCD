@@ -5,7 +5,7 @@ from .models import TeacherCommand
 from .eventPublisher import publish
 
 class TeacherViewSet(viewsets.ViewSet):
-    def getList(self, request):
+    def getAllEvents(self, request):
         teachers = TeacherCommand.objects.all()
         response = []
         for teacher in teachers:

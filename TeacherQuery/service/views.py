@@ -4,6 +4,25 @@ from rest_framework.response import Response
 from .models import TeacherQuery
 
 class TeacherViewSet(viewsets.ViewSet):
-    def getList(self, request):
-        print("response ===> ", request.data)
-        return Response(status=status.HTTP_200_OK)
+    def retrieveAll(self, request):
+        teachers = TeacherQuery.objects.all()
+        response = []
+        for teacher in teachers:
+            aa = {
+                'teacherId': teacher.teacherId,
+                'email': teacher.email,
+                'password': teacher.password,
+                'userName': teacher.userName
+            }
+            response.append(aa)
+        return Response(response, status=status.HTTP_200_OK)
+    
+    def retrieve(self, request, pk):
+        teacher = TeacherQuery.objects.filter(teacherId=pk)
+        response = {
+            'teacherId': teacher.teacherId,
+            'email': teacher.email,
+            'password': teacher.password,
+            'userName': teacher.userName
+        }
+        return Response(response, status=status.HTTP_200_OK)

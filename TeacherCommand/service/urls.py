@@ -7,6 +7,6 @@ urlpatterns = [
         'post': 'processEvent'
     })),
     path('teachers/', TeacherViewSet.as_view({
-        'get': 'getList'
+        'get': 'getAllEvents'
     })),
 ]
