@@ -8,5 +8,5 @@ urlpatterns = [
     })),
     path('teachers/', TeacherViewSet.as_view({
         'get': 'getAllEvents'
-    })),
+    }))
 ]

@@ -3,6 +3,7 @@ from rest_framework.response import Response
 
 from .models import TeacherCommand
 from .eventPublisher import publish
+import requests
 
 class TeacherViewSet(viewsets.ViewSet):
     def getAllEvents(self, request):
@@ -28,6 +29,13 @@ class TeacherViewSet(viewsets.ViewSet):
             'email': data['email'],
             'password': data['password']
         }
+        
+        responseFromQuery = requests.get('http://localhost:8001/teachers/')
+        responseFromQuery = responseFromQuery.json()
+        for response in responseFromQuery:
+            if response['email'] == event['email'] or response['teacherId'] == event['teacherId']:
+                return Response("username or email is already taken", status=status.HTTP_400_BAD_REQUEST)
+
         publish(event)
         teacher.save()
         return Response(data, status=status.HTTP_201_CREATED)
