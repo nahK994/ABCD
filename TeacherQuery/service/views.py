@@ -15,7 +15,6 @@ class TeacherViewSet(viewsets.ViewSet):
         return Response(response, status=status.HTTP_200_OK)
 
     def processResponse(self, teachers):
-        print("process")
         response = []
         for teacher in teachers:
             aa = {
