@@ -38,4 +38,4 @@ class TeacherViewSet(viewsets.ViewSet):
 
         publish(event)
         teacher.save()
-        return Response(data, status=status.HTTP_201_CREATED)
+        return Response(data['teacherId'], status=status.HTTP_201_CREATED)

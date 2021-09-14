@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Teacher } from '../teacher.model';
 import { TeacherService } from '../teacher.service';
 
@@ -12,13 +13,14 @@ export class ProfileTeacherComponent implements OnInit {
 
   teacherInfo: Teacher;
   constructor(
-    private _teacherService: TeacherService
+    private _teacherService: TeacherService,
+    private _activatedRoute: ActivatedRoute
   ) { }
   
-  ngOnInit(): void {
-    this._teacherService.getTeacher("16").subscribe(resp => {
-      this.teacherInfo = resp && resp[0] && new Teacher(resp[0]) || null;
-    })
+  async ngOnInit(): Promise<void> {
+    let teacherId = this._activatedRoute.snapshot.queryParams.teacherId;
+    let resp = await this._teacherService.getTeacher(teacherId).toPromise();
+    this.teacherInfo = resp && resp[0] && new Teacher(resp[0]) || null;
   }
 
 }
