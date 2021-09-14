@@ -9,7 +9,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import { TeacherService } from './teacher.service';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -26,7 +27,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MatFormFieldModule,
     MatButtonModule,
     MatIconModule,
-    MatInputModule
+    MatInputModule,
+    HttpClientModule
+  ],
+  providers: [
+    TeacherService
   ]
 })
 export class TeacherModule { }

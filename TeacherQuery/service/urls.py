@@ -6,7 +6,7 @@ urlpatterns = [
     path('teachers/', TeacherViewSet.as_view({
         'get': 'retrieveAll'
     })),
-    path('teacher/<int:pk>', TeacherViewSet.as_view({
+    path('teacher/<str:pk>/', TeacherViewSet.as_view({
         'get': 'retrieve'
     })),
 ]
