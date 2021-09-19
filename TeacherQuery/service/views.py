@@ -19,8 +19,11 @@ class TeacherViewSet(viewsets.ViewSet):
         for teacher in teachers:
             aa = {
                 'teacherId': teacher.teacherId,
-                'email': teacher.email,
-                'userName': teacher.userName
+                'userName': teacher.userName,
+                'name': teacher.name,
+                'orgName': teacher.orgName,
+                'aboutMe': teacher.aboutMe,
+                'email': teacher.email
             }
             response.append(aa)
         return response
