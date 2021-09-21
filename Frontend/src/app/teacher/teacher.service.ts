@@ -30,6 +30,9 @@ export class TeacherService {
 export interface TeacherPayload {
   teacherId: string;
   userName: string;
+  name: string;
+  orgName: string;
+  aboutMe: string;
   email: string;
   password: string;
 }

@@ -19,12 +19,12 @@ export class CreateTeacherComponent implements OnInit {
     private _activatedRoute: ActivatedRoute
   ) {
     this.form = this._fb.group({
-      // name: ['', Validators.required],
+      name: ['', Validators.required],
       userName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required]
-      // orgName: ['', Validators.required],
-      // aboutMe: ['', Validators.required],
+      password: ['', Validators.required],
+      orgName: ['', Validators.required],
+      aboutMe: ['', Validators.required],
     })
   }
 
@@ -44,8 +44,11 @@ export class CreateTeacherComponent implements OnInit {
     let guidId = this.createGuid()
     let res: TeacherPayload = {
       teacherId: guidId,
-      email: this.form.controls['email'].value,
       userName: this.form.controls['userName'].value,
+      name: this.form.controls['name'].value,
+      orgName: this.form.controls['orgName'].value,
+      email: this.form.controls['email'].value,
+      aboutMe: this.form.controls['aboutMe'].value,
       password: this.form.controls['password'].value
     }
     let resp = await this._teacherService.postTeacher(res).toPromise();
