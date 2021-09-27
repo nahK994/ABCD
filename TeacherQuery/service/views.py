@@ -10,20 +10,19 @@ class TeacherViewSet(viewsets.ViewSet):
         return Response(response, status=status.HTTP_200_OK)
     
     def retrieve(self, request, pk):
-        teacher = TeacherQuery.objects.filter(teacherId=pk)
+        teacher = TeacherQuery.objects.filter(userId=pk)
         response = self.processResponse(teacher)
         return Response(response, status=status.HTTP_200_OK)
 
     def processResponse(self, teachers):
         response = []
         for teacher in teachers:
-            aa = {
-                'teacherId': teacher.teacherId,
-                'userName': teacher.userName,
+            teacherInfo = {
+                'userId': teacher.userId,
                 'name': teacher.name,
                 'orgName': teacher.orgName,
                 'aboutMe': teacher.aboutMe,
                 'email': teacher.email
             }
-            response.append(aa)
+            response.append(teacherInfo)
         return response

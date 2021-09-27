@@ -1,1 +1,4 @@
 db.sqlite3
+service/__pycache__
+TeacherCommand/__pycache__
+scripts/__pycache__

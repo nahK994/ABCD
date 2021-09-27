@@ -20,7 +20,6 @@ export class CreateTeacherComponent implements OnInit {
   ) {
     this.form = this._fb.group({
       name: ['', Validators.required],
-      userName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
       orgName: ['', Validators.required],
@@ -43,8 +42,7 @@ export class CreateTeacherComponent implements OnInit {
   {
     let guidId = this.createGuid()
     let res: TeacherPayload = {
-      teacherId: guidId,
-      userName: this.form.controls['userName'].value,
+      userId: guidId,
       name: this.form.controls['name'].value,
       orgName: this.form.controls['orgName'].value,
       email: this.form.controls['email'].value,

@@ -1,14 +1,14 @@
 import pika
 import json
-from service.models import TeacherQuery
+from service.models import TeacherCommand
 
 
 def run():
     def callbackFunc(ch, methods, properties, body):
         body = body.decode('ASCII')
         data = json.loads(body)
-        print("HaHa HiHi ====> ", data, type(data))
-        teacher = TeacherQuery(
+        print(data, type(data))
+        teacher = TeacherCommand(
             userId=data['userId'],
             name=data['name'],
             email=data['email'],
@@ -22,7 +22,7 @@ def run():
             template = "An exception of type {0} occurred. Arguments:\n{1!r}"
             message = template.format(type(ex).__name__, ex.args)
             print(message)
- 
+
     params = pika.ConnectionParameters(host='localhost')
     connection = pika.BlockingConnection(params)
     channel = connection.channel()

@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Teacher } from './teacher.model'
 
@@ -8,7 +8,7 @@ import { Teacher } from './teacher.model'
 export class TeacherService {
 
   baseUrl_Get: string = 'http://localhost:8001/teacher/';
-  baseUrl_Post: string = 'http://localhost:8000/teacher/';
+  baseUrl_Post: string = 'http://localhost:8000/teacher/create/';
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
@@ -28,8 +28,7 @@ export class TeacherService {
 }
 
 export interface TeacherPayload {
-  teacherId: string;
-  userName: string;
+  userId: string;
   name: string;
   orgName: string;
   aboutMe: string;
