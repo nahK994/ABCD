@@ -15,16 +15,17 @@ class AuthViewSet(viewsets.ViewSet):
         response = self.processResponse(users)
         return Response(response, status=status.HTTP_200_OK)
     
-    def processResponse(self, users):
-        response = []
-        for user in users:
-            userInfo = {
-                'userId': user.userId,
-                'email': user.email,
-                'password': user.password
-            }
-            response.append(userInfo)
-        return response
+    def getUser(self, request):
+        request = request.data
+        print("HaHa ====> ", request)
+        user = Auth.objects.filter(email=request['email'], password=request['password'])
+        queryResult = self.processResponse(user)
+
+        if len(queryResult) == 0:
+            return Response("Wrong email or password", status=status.HTTP_200_OK)
+        else:
+            return Response(queryResult[0]['userId'], status=status.HTTP_200_OK)
+
 
     def processEvent(self, request):
         data = request.data
@@ -49,3 +50,15 @@ class AuthViewSet(viewsets.ViewSet):
         loginInfo.save()
         publish(event)
         return Response(data['userId'], status=status.HTTP_201_CREATED)
+
+
+    def processResponse(self, users):
+        response = []
+        for user in users:
+            userInfo = {
+                'userId': user.userId,
+                'email': user.email,
+                'password': user.password
+            }
+            response.append(userInfo)
+        return response

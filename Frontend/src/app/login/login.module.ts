@@ -9,6 +9,8 @@ import {MatInputModule} from '@angular/material/input';
 import { LoginRoutingModule } from './login-routing.module';
 import {MatCardModule} from '@angular/material/card';
 import {MatSelectModule} from '@angular/material/select';
+import { LoginService } from './login.service';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -25,7 +27,11 @@ import {MatSelectModule} from '@angular/material/select';
     MatIconModule,
     MatInputModule,
     MatCardModule,
-    MatSelectModule
+    MatSelectModule,
+    HttpClientModule
+  ],
+  providers: [
+    LoginService
   ]
 })
 export class LoginModule { }

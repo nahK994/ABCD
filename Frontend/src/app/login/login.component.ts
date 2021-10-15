@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { LoginService } from './login.service';
 
 @Component({
   selector: 'app-login',
@@ -13,12 +14,13 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private _fb: FormBuilder,
-    private route: Router
+    private _router: Router,
+    private _activatedRoute: ActivatedRoute,
+    private _loginService: LoginService
   ) {
     this.form = this._fb.group({
-      userName: ['', Validators.required],
-      password: ['', [Validators.required]],
-      userType: ['', Validators.required]
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required]]
     })
   }
 
@@ -26,18 +28,23 @@ export class LoginComponent implements OnInit {
 
   }
 
-  submit()
+  async submit()
   {
-    console.log("HaHa ===> ", this.form.value)
+    let resp = await this._loginService.createUser(this.form.value).toPromise();
+    console.log("HihI ===> ", resp);
+    let teacherIdQueryParam = {
+      "teacherId": resp
+    }
+    this._router.navigate(['../teacher/profile'], { relativeTo: this._activatedRoute, queryParams: teacherIdQueryParam });
   }
 
   createNewStudent()
   {
-    this.route.navigate(['/student/create'])
+    this._router.navigate(['/student/create'])
   }
 
   createNewTeacher()
   {
-    this.route.navigate(['/teacher/create'])
+    this._router.navigate(['/teacher/create'])
   }
 }

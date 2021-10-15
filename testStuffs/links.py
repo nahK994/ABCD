@@ -9,3 +9,6 @@
 
 # For RabbitMq
 # https://www.youtube.com/watch?v=QfsXKdm0uys&list=LL&index=1&t=660s
+
+# For automation
+# https://stackoverflow.com/questions/43332703/open-terminal-run-command-python

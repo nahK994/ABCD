@@ -49,7 +49,7 @@ export class CreateTeacherComponent implements OnInit {
       aboutMe: this.form.controls['aboutMe'].value,
       password: this.form.controls['password'].value
     }
-    let resp = await this._teacherService.postTeacher(res).toPromise();
+    let resp = await this._teacherService.createTeacher(res).toPromise();
 
     let teacherIdQueryParam = {
       "teacherId": guidId

@@ -11,5 +11,8 @@ urlpatterns = [
     })),
     path('credential/<str:pk>/', AuthViewSet.as_view({
         'get': 'getEvent'
+    })),
+    path('login/', AuthViewSet.as_view({
+        'post': 'getUser'
     }))
 ]

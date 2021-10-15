@@ -8,7 +8,8 @@ import { Teacher } from './teacher.model'
 export class TeacherService {
 
   baseUrl_Get: string = 'http://localhost:8001/teacher/';
-  baseUrl_Post: string = 'http://localhost:8000/teacher/create/';
+  baseUrl_Create: string = 'http://localhost:8000/teacher/create/';
+
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
@@ -22,8 +23,8 @@ export class TeacherService {
     return this.http.get<Teacher[]>(url);
   }
 
-  postTeacher(teacherInfo: TeacherPayload) {
-    return this.http.post<TeacherPayload>(this.baseUrl_Post, teacherInfo, this.httpOptions);
+  createTeacher(teacherInfo: TeacherPayload) {
+    return this.http.post<TeacherPayload>(this.baseUrl_Create, teacherInfo, this.httpOptions);
   }
 }
 

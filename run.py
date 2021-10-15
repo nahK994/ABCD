@@ -1,33 +1,22 @@
-import subprocess as sp
 import os
-import multiprocessing as mp
 
-# def runFrontend():
-#     os.chdir('Frontend')
-#     print(os.getcwd())
-#     sp.call(['ng', 'serve'])
+os.chdir('Auth')
+os.system("gnome-terminal -e 'bash -c \"python3 manage.py runserver 127.0.0.1:8000; bash\" '")
 
-# def runAuth():
-#     os.chdir('Auth')
-#     print(os.getcwd())
-#     sp.call(['python3', 'manage.py', 'runserver'])
+os.chdir('../TeacherCommand')
+os.system("gnome-terminal -e 'bash -c \"python3 manage.py runserver 127.0.0.1:8002; bash\" '")
+os.system("gnome-terminal -e 'bash -c \"python3 manage.py runscript eventConsumer; bash\" '")
 
-# p1 = mp.process(target=runFrontend)
-# p2 = mp.process(target=runAuth)
+os.chdir('../TeacherQuery')
+os.system("gnome-terminal -e 'bash -c \"python3 manage.py runserver 127.0.0.1:8001; bash\" '")
+os.system("gnome-terminal -e 'bash -c \"python3 manage.py runscript eventConsumer; bash\" '")
 
-# p1.run()
-# p2.run()
+os.chdir('../Frontend')
+os.system("gnome-terminal -e 'bash -c \"ng serve; bash\" '")
 
-# p1.join()
-# p2.join()
+print("done")
 
-#sp.run(['cd Frontend/'])
-#os.chdir('Frontend')
-#print(os.getcwd())
-#sp.call(['ng', 'serve'])
-#os.chdir('../TeacherQuery')
-#print(os.getcwd())
-#sp.run(['python3', 'manage.py', 'runserver'])
+# https://stackoverflow.com/questions/43332703/open-terminal-run-command-python
 
 
 # 8000 ==> Auth
