@@ -2,10 +2,10 @@ import pika
 import json
 
 def publish(event):
-    params = pika.ConnectionParameters(host='localhost')
-    connection = pika.BlockingConnection(params)
+    connection = pika.BlockingConnection(
+        pika.ConnectionParameters(host='localhost'))
     channel = connection.channel()
-    channel.queue_declare(queue='admin')
     event = json.dumps(event)
-    channel.basic_publish(exchange='', routing_key='admin', body=event)
+    channel.exchange_declare(exchange='login', exchange_type='fanout')
+    channel.basic_publish(exchange='login', routing_key='', body=event)
     connection.close()

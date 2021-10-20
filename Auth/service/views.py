@@ -17,7 +17,6 @@ class AuthViewSet(viewsets.ViewSet):
     
     def getUser(self, request):
         request = request.data
-        print("HaHa ====> ", request)
         user = Auth.objects.filter(email=request['email'], password=request['password'])
         queryResult = self.processResponse(user)
 
@@ -43,9 +42,10 @@ class AuthViewSet(viewsets.ViewSet):
         }
 
         users = Auth.objects.all()
-        for user in users:
-            if data['email'] == user.email:
-                return Response("Email has already used", status=status.HTTP_400_BAD_REQUEST)
+        filterWithEmail = Auth.objects.filter(email=event['email'])
+
+        if len(self.processResponse(filterWithEmail)) != 0:
+            return Response("Email has already used", status=status.HTTP_400_BAD_REQUEST)
 
         loginInfo.save()
         publish(event)

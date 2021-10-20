@@ -1,8 +1,13 @@
 import pika
+import sys
 
-params = pika.ConnectionParameters(host='localhost')
-connection = pika.BlockingConnection(params)
+connection = pika.BlockingConnection(
+    pika.ConnectionParameters(host='localhost'))
 channel = connection.channel()
-channel.queue_declare(queue='admin')
-channel.basic_publish(exchange='', routing_key='admin', body='angry birds')
+
+channel.exchange_declare(exchange='logs', exchange_type='fanout')
+
+message = ' '.join(sys.argv[1:]) or "info: Hello World!"
+channel.basic_publish(exchange='logs', routing_key='', body=message)
+print(" [x] Sent %r" % message)
 connection.close()
