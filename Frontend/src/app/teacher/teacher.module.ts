@@ -10,7 +10,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TeacherService } from './teacher.service';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AccessTokenInterceptor } from '../interceptor/token.interceptor';
+import { LoginService } from '../login/login.service';
 
 
 @NgModule({
@@ -31,7 +33,8 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule
   ],
   providers: [
-    TeacherService
+    TeacherService,
+    LoginService
   ]
 })
 export class TeacherModule { }

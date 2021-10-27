@@ -30,8 +30,7 @@ export class LoginComponent implements OnInit {
 
   async submit()
   {
-    let resp = await this._loginService.createUser(this.form.value).toPromise();
-    console.log("HihI ===> ", resp);
+    let resp = await this._loginService.loginUser(this.form.value);
     let teacherIdQueryParam = {
       "teacherId": resp
     }

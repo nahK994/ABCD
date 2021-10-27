@@ -5,6 +5,10 @@ from .models import Auth
 from .eventPublisher import publish
 
 class AuthViewSet(viewsets.ViewSet):
+
+    refreshTokenToAccessToken = {}
+    accessTokens = []
+
     def getAllEvents(self, request):
         users = Auth.objects.all()
         response = self.processResponse(users)
@@ -15,15 +19,24 @@ class AuthViewSet(viewsets.ViewSet):
         response = self.processResponse(users)
         return Response(response, status=status.HTTP_200_OK)
     
-    def getUser(self, request):
+    def loginUser(self, request):
         request = request.data
         user = Auth.objects.filter(email=request['email'], password=request['password'])
         queryResult = self.processResponse(user)
 
+        response = self.createLoginInfo(queryResult[0]['userId'])
+
         if len(queryResult) == 0:
             return Response("Wrong email or password", status=status.HTTP_200_OK)
         else:
-            return Response(queryResult[0]['userId'], status=status.HTTP_200_OK)
+            return Response(response, status=status.HTTP_200_OK)
+    
+    def logoutUser(self, request):
+        refreshToken = request.data['refreshToken']
+        accessToken = self.refreshTokenToAccessToken[refreshToken]
+        self.accessTokens.remove(accessToken)
+        del self.refreshTokenToAccessToken[refreshToken]
+        return Response("", status=status.HTTP_200_OK)
 
 
     def processEvent(self, request):
@@ -49,8 +62,19 @@ class AuthViewSet(viewsets.ViewSet):
 
         loginInfo.save()
         publish(event)
-        return Response(data['userId'], status=status.HTTP_201_CREATED)
 
+        response = self.createLoginInfo(data['userId'])
+        return Response(response, status=status.HTTP_201_CREATED)
+    
+    def createLoginInfo(self, userId):
+        self.refreshTokenToAccessToken["20"] = "25"
+        self.accessTokens.append(self.refreshTokenToAccessToken["20"])
+        response = {
+            'userId': userId,
+            'accessToken': self.refreshTokenToAccessToken["20"],
+            'refreshToken': "20"
+        }
+        return response
 
     def processResponse(self, users):
         response = []

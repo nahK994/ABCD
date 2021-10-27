@@ -13,6 +13,9 @@ urlpatterns = [
         'get': 'getEvent'
     })),
     path('login/', AuthViewSet.as_view({
-        'post': 'getUser'
+        'post': 'loginUser'
+    })),
+    path('logout/', AuthViewSet.as_view({
+        'post': 'logoutUser'
     }))
 ]

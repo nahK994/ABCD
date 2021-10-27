@@ -8,8 +8,14 @@ class TeacherViewSet(viewsets.ViewSet):
         teachers = TeacherQuery.objects.all()
         response = self.processResponse(teachers)
         return Response(response, status=status.HTTP_200_OK)
+
+    def checkAuthorization(self, request, pk):
+        if request.headers['Authorization'].split()[1] != "25":
+            return Response('', status=status.HTTP_401_UNAUTHORIZED)
+        else:
+            return self.retrieve(pk)
     
-    def retrieve(self, request, pk):
+    def retrieve(self, pk):
         teacher = TeacherQuery.objects.filter(userId=pk)
         response = self.processResponse(teacher)
         return Response(response, status=status.HTTP_200_OK)

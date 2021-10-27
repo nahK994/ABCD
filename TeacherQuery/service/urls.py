@@ -7,6 +7,6 @@ urlpatterns = [
         'get': 'retrieveAll'
     })),
     path('teacher/<str:pk>/', TeacherViewSet.as_view({
-        'get': 'retrieve'
+        'get': 'checkAuthorization'
     })),
 ]
