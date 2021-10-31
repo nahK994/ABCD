@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { LoginService } from '../login/login.service';
+import { LoginResponse, LoginService } from '../login/login.service';
 import { Teacher } from './teacher.model'
 
 @Injectable({
@@ -27,7 +27,7 @@ export class TeacherService {
   }
 
   createTeacher(teacherInfo: TeacherPayload) {
-    return this.http.post<TeacherPayload>(this.baseUrl_Create, teacherInfo, this.httpOptions);
+    return this.http.post<LoginResponse>(this.baseUrl_Create, teacherInfo, this.httpOptions);
   }
 }
 
