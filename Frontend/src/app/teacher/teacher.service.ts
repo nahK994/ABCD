@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { AppService } from '../app.service';
 import { LoginResponse, LoginService } from '../login/login.service';
 import { Teacher } from './teacher.model'
 
@@ -12,22 +13,30 @@ export class TeacherService {
   baseUrl_Create: string = 'http://localhost:8000/teacher/create/';
 
   httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Bearer '+localStorage.getItem(this._logInService.accessToken)})
+    headers: new HttpHeaders({ 'Content-Type': 'application/json'})
   };
 
   constructor(
     private http: HttpClient,
-    private _logInService: LoginService,
+    private _appService: AppService,
+    private _loginService: LoginService
   ) { }
 
   getTeacher(teacherId: string) {
     let url = this.baseUrl_Get+teacherId;
-    console.log("FUN ===> ", this.httpOptions.headers)
+    const headers = new HttpHeaders()
+    .set('content-type', 'application/json')
+    .set('Authorization', 'Bearer '+localStorage.getItem(this._appService.accessToken));
+    this.httpOptions = {
+      headers: headers
+    }
     return this.http.get<Teacher[]>(url, this.httpOptions);
   }
 
-  createTeacher(teacherInfo: TeacherPayload) {
-    return this.http.post<LoginResponse>(this.baseUrl_Create, teacherInfo, this.httpOptions);
+  async createTeacher(teacherInfo: TeacherPayload) {
+    let response: LoginResponse = await this.http.post<LoginResponse>(this.baseUrl_Create, teacherInfo, this.httpOptions).toPromise();
+    this._loginService.setLoginInformation(response);
+    return response.userId;
   }
 }
 

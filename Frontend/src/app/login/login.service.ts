@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
+import { AppService } from '../app.service';
 
 @Injectable({
   providedIn: 'root'
@@ -8,8 +9,6 @@ export class LoginService {
 
   baseUrl_Login: string = 'http://localhost:8000/login/';
   baseUrl_Logout: string = 'http://localhost:8000/logout/';
-  readonly accessToken = "JWT_TOKEN";
-  readonly refreshToken = "REFRESH_TOKEN";
   userId: string;
 
   httpOptions = {
@@ -17,37 +16,30 @@ export class LoginService {
   };
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private _appService: AppService
   ) { }
   
   async loginUser(payload: LoginPayload) {
     let response = await this.http.post<LoginResponse>(this.baseUrl_Login, payload, this.httpOptions).toPromise();
-    this.setAssets(response.refreshToken, response.accessToken, response.userId);
+    this.setLoginInformation(response);
+
     return this.userId;
   }
 
+  setLoginInformation(response) {
+    this._appService.setAssets(response.refreshToken, response.accessToken);
+    this.userId = response.userId;
+  }
+
   async logoutUser() {
-    let payload: LogoutPayload = {
-      refreshToken: localStorage.getItem(this.refreshToken)
-    }
-    await this.http.post<LoginResponse>(this.baseUrl_Logout, payload).toPromise();
-    this.removeAssets();
-  }
-
-  setAssets(refreshToken, accessToken, userId) {
-    localStorage.setItem(this.refreshToken, refreshToken);
-    localStorage.setItem(this.accessToken, accessToken)
-    this.userId = userId
-  }
-
-  removeAssets() {
-    localStorage.removeItem(this.refreshToken);
-    localStorage.removeItem(this.accessToken)
+    await this.http.post<LoginResponse>(this.baseUrl_Logout, localStorage.getItem(this._appService.refreshToken), this.httpOptions).toPromise();
+    this._appService.removeAssets();
     this.userId = null;
   }
 
   get getAccessToken() {
-    return localStorage.getItem(this.accessToken);
+    return localStorage.getItem(this._appService.accessToken);
   }
 }
 

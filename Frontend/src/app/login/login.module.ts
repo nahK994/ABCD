@@ -11,6 +11,7 @@ import {MatCardModule} from '@angular/material/card';
 import {MatSelectModule} from '@angular/material/select';
 import { LoginService } from './login.service';
 import { HttpClientModule } from '@angular/common/http';
+import { AppService } from '../app.service';
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule
   ],
   providers: [
-    LoginService
+    LoginService,
+    AppService
   ]
 })
 export class LoginModule { }

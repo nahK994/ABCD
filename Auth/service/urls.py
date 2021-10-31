@@ -17,5 +17,8 @@ urlpatterns = [
     })),
     path('logout/', AuthViewSet.as_view({
         'post': 'logoutUser'
+    })),
+    path('refresh-access-token/', AuthViewSet.as_view({
+        'post': 'refreshAccessToken'
     }))
 ]

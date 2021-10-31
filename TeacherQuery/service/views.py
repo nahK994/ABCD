@@ -10,7 +10,7 @@ class TeacherViewSet(viewsets.ViewSet):
         return Response(response, status=status.HTTP_200_OK)
 
     def checkAuthorization(self, request, pk):
-        if request.headers['Authorization'].split()[1] != "25":
+        if int(request.headers['Authorization'].split()[1])%25 != 0:
             return Response('', status=status.HTTP_401_UNAUTHORIZED)
         else:
             return self.retrieve(pk)

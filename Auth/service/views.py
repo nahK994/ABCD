@@ -4,10 +4,11 @@ from rest_framework.response import Response
 from .models import Auth
 from .eventPublisher import publish
 
+import random
+
 class AuthViewSet(viewsets.ViewSet):
 
     refreshTokenToAccessToken = {}
-    accessTokens = []
 
     def getAllEvents(self, request):
         users = Auth.objects.all()
@@ -32,9 +33,8 @@ class AuthViewSet(viewsets.ViewSet):
             return Response(response, status=status.HTTP_200_OK)
     
     def logoutUser(self, request):
-        refreshToken = request.data['refreshToken']
-        accessToken = self.refreshTokenToAccessToken[refreshToken]
-        self.accessTokens.remove(accessToken)
+        refreshToken = request.data
+        print("logout ==> ", refreshToken, type(refreshToken))
         del self.refreshTokenToAccessToken[refreshToken]
         return Response("", status=status.HTTP_200_OK)
 
@@ -67,14 +67,24 @@ class AuthViewSet(viewsets.ViewSet):
         return Response(response, status=status.HTTP_201_CREATED)
     
     def createLoginInfo(self, userId):
-        self.refreshTokenToAccessToken["20"] = "25"
-        self.accessTokens.append(self.refreshTokenToAccessToken["20"])
+        tokens = self.loginTokens()
         response = {
             'userId': userId,
-            'accessToken': self.refreshTokenToAccessToken["20"],
-            'refreshToken': "20"
+            'accessToken': tokens['accessToken'],
+            'refreshToken': tokens['refreshToken']
         }
         return response
+    
+    def loginTokens(self):
+        refreshToken = random.randint(0, 1000)
+        accessToken = 25*random.randint(0, 1000)
+        self.refreshTokenToAccessToken[refreshToken] = accessToken
+        tokens = {
+            'accessToken': self.refreshTokenToAccessToken[refreshToken],
+            'refreshToken': refreshToken
+        }
+
+        return tokens
 
     def processResponse(self, users):
         response = []
@@ -86,3 +96,12 @@ class AuthViewSet(viewsets.ViewSet):
             }
             response.append(userInfo)
         return response
+
+    def refreshAccessToken(self, request):
+        refreshToken = request.data
+        if refreshToken in self.refreshTokenToAccessToken:
+            del self.refreshTokenToAccessToken[refreshToken]
+            tokens = self.loginTokens()
+            return Response(tokens, status=status.HTTP_200_OK)
+        else:
+            return Response("", status=status.HTTP_200_OK)

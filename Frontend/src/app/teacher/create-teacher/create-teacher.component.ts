@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LoginResponse, LoginService } from 'src/app/login/login.service';
+import { LoginResponse } from 'src/app/login/login.service';
 import { TeacherPayload, TeacherService } from '../teacher.service';
 
 @Component({
@@ -17,8 +17,7 @@ export class CreateTeacherComponent implements OnInit {
     private _fb: FormBuilder,
     private _teacherService: TeacherService,
     private _router: Router,
-    private _activatedRoute: ActivatedRoute,
-    private _logInService: LoginService
+    private _activatedRoute: ActivatedRoute
   ) {
     this.form = this._fb.group({
       name: ['', Validators.required],
@@ -51,11 +50,10 @@ export class CreateTeacherComponent implements OnInit {
       aboutMe: this.form.controls['aboutMe'].value,
       password: this.form.controls['password'].value
     }
-    let resp: LoginResponse = await this._teacherService.createTeacher(res).toPromise();
-    this._logInService.setAssets(resp.refreshToken, resp.accessToken, resp.userId);
+    let resp = await this._teacherService.createTeacher(res);
 
     let teacherIdQueryParam = {
-      "teacherId": resp.userId
+      "teacherId": resp
     }
     this._router.navigate(['../profile'], { relativeTo: this._activatedRoute, queryParams: teacherIdQueryParam });
   }
