@@ -6,9 +6,14 @@ from .eventPublisher import publish
 
 import random
 
-class AuthViewSet(viewsets.ViewSet):
+from django.conf import settings
+from django.core.cache.backends.base import DEFAULT_TIMEOUT
+from django.views.decorators.cache import cache_page
+from django.core.cache import cache
 
-    refreshTokenToAccessToken = {}
+CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
+
+class AuthViewSet(viewsets.ViewSet):
 
     def getAllEvents(self, request):
         users = Auth.objects.all()
@@ -34,8 +39,7 @@ class AuthViewSet(viewsets.ViewSet):
     
     def logoutUser(self, request):
         refreshToken = request.data
-        print("logout ==> ", refreshToken, type(refreshToken))
-        del self.refreshTokenToAccessToken[refreshToken]
+        cache.delete(refreshToken)
         return Response("", status=status.HTTP_200_OK)
 
 
@@ -78,11 +82,12 @@ class AuthViewSet(viewsets.ViewSet):
     def loginTokens(self):
         refreshToken = random.randint(0, 1000)
         accessToken = 25*random.randint(0, 1000)
-        self.refreshTokenToAccessToken[refreshToken] = accessToken
+        cache.set(refreshToken, accessToken)
         tokens = {
-            'accessToken': self.refreshTokenToAccessToken[refreshToken],
+            'accessToken': cache.get(refreshToken),
             'refreshToken': refreshToken
         }
+        print("caching worked ", tokens)
 
         return tokens
 
@@ -99,8 +104,8 @@ class AuthViewSet(viewsets.ViewSet):
 
     def refreshAccessToken(self, request):
         refreshToken = request.data
-        if refreshToken in self.refreshTokenToAccessToken:
-            del self.refreshTokenToAccessToken[refreshToken]
+        if cache.get(refreshToken):
+            cache.delete(refreshToken)
             tokens = self.loginTokens()
             return Response(tokens, status=status.HTTP_200_OK)
         else:
