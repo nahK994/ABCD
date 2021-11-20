@@ -2,6 +2,9 @@ from rest_framework import viewsets, status
 from rest_framework.response import Response
 
 from .models import TeacherQuery
+import jwt
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
 
 class TeacherViewSet(viewsets.ViewSet):
     def retrieveAll(self, request):
@@ -10,10 +13,17 @@ class TeacherViewSet(viewsets.ViewSet):
         return Response(response, status=status.HTTP_200_OK)
 
     def checkAuthorization(self, request, pk):
-        if int(request.headers['Authorization'].split()[1])%25 != 0:
+        try:
+            token = request.headers['Authorization'].split()[1]
+            tokenJSON = jwt.decode(token, "secret", algorithms=["HS256"])
+            currentTime = datetime.now()
+            expiryTime = datetime.strptime(tokenJSON['expiryTime'], '%m/%d/%Y, %H:%M:%S')
+            if currentTime < expiryTime:
+                return self.retrieve(pk)
+            else:
+                return Response('', status=status.HTTP_403_FORBIDDEN)
+        except:
             return Response('', status=status.HTTP_401_UNAUTHORIZED)
-        else:
-            return self.retrieve(pk)
     
     def retrieve(self, pk):
         teacher = TeacherQuery.objects.filter(userId=pk)

@@ -21,6 +21,6 @@ export class AppComponent implements OnInit {
         await this._appService.refreshAccessToken();
       }
       count++;
-    }, 6000);
+    }, 54000);
   }
 }

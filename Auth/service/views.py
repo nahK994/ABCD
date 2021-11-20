@@ -10,6 +10,10 @@ from django.conf import settings
 from django.core.cache.backends.base import DEFAULT_TIMEOUT
 from django.views.decorators.cache import cache_page
 from django.core.cache import cache
+import jwt
+
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
 
 CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
 
@@ -80,14 +84,22 @@ class AuthViewSet(viewsets.ViewSet):
         return response
     
     def loginTokens(self):
-        refreshToken = random.randint(0, 1000)
-        accessToken = 25*random.randint(0, 1000)
+        refreshToken = random.randint(0, 10000)
+        # accessToken = 25*random.randint(0, 1000)
+        currentTime = datetime.now()
+        expiryTime = currentTime + relativedelta(minutes=10)
+        tokenJSON = {
+            "currentTime": currentTime.strftime("%m/%d/%Y, %H:%M:%S"),
+            "expiryTime": expiryTime.strftime("%m/%d/%Y, %H:%M:%S")
+        }
+        accessToken = jwt.encode(tokenJSON, "secret", algorithm="HS256")
+        
         cache.set(refreshToken, accessToken)
         tokens = {
             'accessToken': cache.get(refreshToken),
             'refreshToken': refreshToken
         }
-        print("caching worked ", tokens)
+        # print("caching worked ", tokens)
 
         return tokens
 
