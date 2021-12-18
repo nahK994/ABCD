@@ -7,6 +7,9 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
 class TeacherViewSet(viewsets.ViewSet):
+
+    tokenGenerationTime = datetime.now()
+
     def retrieveAll(self, request):
         teachers = TeacherQuery.objects.all()
         response = self.processResponse(teachers)
@@ -16,9 +19,11 @@ class TeacherViewSet(viewsets.ViewSet):
         try:
             token = request.headers['Authorization'].split()[1]
             tokenJSON = jwt.decode(token, "secret", algorithms=["HS256"])
-            currentTime = datetime.now()
+            tokenGenerationTime = datetime.strptime(tokenJSON['currentTime'], '%m/%d/%Y, %H:%M:%S')
             expiryTime = datetime.strptime(tokenJSON['expiryTime'], '%m/%d/%Y, %H:%M:%S')
-            if currentTime < expiryTime:
+
+            if datetime.now() < expiryTime and tokenGenerationTime >= self.tokenGenerationTime:
+                self.tokenGenerationTime = tokenGenerationTime
                 return self.retrieve(pk)
             else:
                 return Response('', status=status.HTTP_403_FORBIDDEN)
