@@ -12,11 +12,13 @@ import {MatSelectModule} from '@angular/material/select';
 import { LoginService } from './login.service';
 import { HttpClientModule } from '@angular/common/http';
 import { AppService } from '../app.service';
+import { SelectRoleComponent } from './select-role/select-role.component';
 
 
 @NgModule({
   declarations: [
-    LoginComponent
+    LoginComponent,
+    SelectRoleComponent
   ],
   imports: [
     CommonModule,
