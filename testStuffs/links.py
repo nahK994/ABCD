@@ -12,3 +12,7 @@
 
 # For automation
 # https://stackoverflow.com/questions/43332703/open-terminal-run-command-python
+
+# docker run -d --name mongo -p 27017:27017 mongo
+
+# docker run -d --name rabbitmq -p 15672:15672 -p 5672:5672 rabbitmq:3-management

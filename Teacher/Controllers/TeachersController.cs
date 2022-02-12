@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using Models;
 using DataStore;
+using MassTransit;
+using System.Threading.Tasks;
 
 namespace Controller
 {
@@ -44,8 +46,8 @@ namespace Controller
             }
 
             Teacher updatedTeacher = teacher with {
-                OrgName = updateTeacherModel.OrgName,
-                DeptName = updateTeacherModel.DeptName,
+                OrganizationName = updateTeacherModel.OrganizationName,
+                Department = updateTeacherModel.DepartmentName,
                 AboutMe = updateTeacherModel.AboutMe
             };
             DataStoreInterface.updateTeacher(updatedTeacher);
@@ -54,12 +56,13 @@ namespace Controller
         }
 
         [HttpPost("/create")]
-        public Guid createUser(CreateTeacherModel createTeacherModel)
+        public Guid createTeacher(CreateTeacherModel createTeacherModel)
         {
             Teacher teacher = new(){
                 Id = Guid.NewGuid(),
-                OrgName = createTeacherModel.OrgName,
-                DeptName = createTeacherModel.DeptName,
+                Name = createTeacherModel.Name,
+                OrganizationName = createTeacherModel.OrganizationName,
+                Department = createTeacherModel.DepartmentName,
                 AboutMe = createTeacherModel.AboutMe
             };
 

@@ -5,9 +5,14 @@ namespace Models
     public record UpdateTeacherModel
     {
         [Required]
-        public string OrgName { get; set; }
+        public string Name { get; set; }
         [Required]
-        public string DeptName { get; set; }
+        // [EmailAddress]
+        public string DepartmentName { get; set; }
+        
+        [Required]
+        public string OrganizationName { get; set; }
+
         [Required]
         public string AboutMe { get; set; }
     }

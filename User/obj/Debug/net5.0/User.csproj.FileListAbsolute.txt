@@ -43,3 +43,15 @@
 /home/shomi/Desktop/ABCD/User/obj/Debug/net5.0/ref/User.dll
 /home/shomi/Desktop/ABCD/User/obj/Debug/net5.0/User.pdb
 /home/shomi/Desktop/ABCD/User/obj/Debug/net5.0/User.genruntimeconfig.cache
+/home/shomi/Desktop/ABCD/User/bin/Debug/net5.0/Automatonymous.dll
+/home/shomi/Desktop/ABCD/User/bin/Debug/net5.0/GreenPipes.dll
+/home/shomi/Desktop/ABCD/User/bin/Debug/net5.0/MassTransit.dll
+/home/shomi/Desktop/ABCD/User/bin/Debug/net5.0/MassTransit.AspNetCoreIntegration.dll
+/home/shomi/Desktop/ABCD/User/bin/Debug/net5.0/MassTransit.ExtensionsDependencyInjectionIntegration.dll
+/home/shomi/Desktop/ABCD/User/bin/Debug/net5.0/MassTransit.RabbitMqTransport.dll
+/home/shomi/Desktop/ABCD/User/bin/Debug/net5.0/Microsoft.Bcl.AsyncInterfaces.dll
+/home/shomi/Desktop/ABCD/User/bin/Debug/net5.0/NewId.dll
+/home/shomi/Desktop/ABCD/User/bin/Debug/net5.0/Newtonsoft.Json.dll
+/home/shomi/Desktop/ABCD/User/bin/Debug/net5.0/Newtonsoft.Json.Bson.dll
+/home/shomi/Desktop/ABCD/User/bin/Debug/net5.0/RabbitMQ.Client.dll
+/home/shomi/Desktop/ABCD/User/bin/Debug/net5.0/System.Text.Json.dll

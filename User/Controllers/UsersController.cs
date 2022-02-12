@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using Models;
 using DataHouse;
+using MassTransit;
+using System.Threading.Tasks;
 
 namespace Controller
 {
@@ -11,9 +13,11 @@ namespace Controller
     public class UsersController: ControllerBase
     {
         DataHouseInterface DataHouseInterface;
-        public UsersController(DataHouseInterface DataHouseInterface)
+        private readonly IBus _bus;
+        public UsersController(DataHouseInterface DataHouseInterface, IBus bus)
         {
             this.DataHouseInterface = DataHouseInterface;
+            _bus = bus;
         }
 
         [HttpGet("/get")]
@@ -65,6 +69,23 @@ namespace Controller
             DataHouseInterface.createUser(user);
 
             return user.Id;
+        }
+
+        [HttpPost("/create/test")]
+        public async Task<ActionResult> createUserTestAsync()
+        {
+            CreateTeacherEventModel TeacherEventModel = new CreateTeacherEventModel{
+                Name = "shomi khan",
+                AboutMe = "i am awesome",
+                DepartmentName = "EEE",
+                OrganizationName = "SUST"
+            };
+
+            Uri uri = new Uri("rabbitmq://localhost/ticketQueue");
+            var endPoint = await _bus.GetSendEndpoint(uri);
+            await endPoint.Send(TeacherEventModel);
+            Console.WriteLine("check");
+            return Ok();
         }
 
         [HttpDelete("/delete/{Id}")]
