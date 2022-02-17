@@ -34,25 +34,26 @@ namespace Main
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMassTransit(x =>
-            {
-                x.AddConsumer<CreateEventConsumer>();
-                x.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(cfg =>
-                {
-                    cfg.Host(new Uri("rabbitmq://localhost"),h =>
-                    {
-                        h.Username("guest");
-                        h.Password("guest");
-                    });
-                    cfg.ReceiveEndpoint("ticketQueue", ep =>
-                    {
-                        ep.PrefetchCount = 16;
-                        ep.UseMessageRetry(r => r.Interval(2, 100));
-                        ep.ConfigureConsumer<CreateEventConsumer>(provider);
-                    });
-                }));
-            });
-            services.AddMassTransitHostedService();
+            // services.AddMassTransit(x =>
+            // {
+            //     x.AddConsumer<CreateEventConsumer>();
+            //     x.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(cfg =>
+            //     {
+            //         cfg.Host(new Uri("rabbitmq://localhost"),h =>
+            //         {
+            //             h.Username("guest");
+            //             h.Password("guest");
+            //         });
+            //         cfg.ReceiveEndpoint("ticketQueue", ep =>
+            //         {
+            //             ep.PrefetchCount = 16;
+            //             ep.UseMessageRetry(r => r.Interval(2, 100));
+            //             ep.ConfigureConsumer<CreateEventConsumer>(provider);
+            //         });
+            //     }));
+            // });
+            // services.AddMassTransitHostedService();
+            services.AddControllers();
 
             BsonSerializer.RegisterSerializer(new GuidSerializer(MongoDB.Bson.BsonType.String));
 
@@ -61,7 +62,7 @@ namespace Main
                 return new MongoClient(settings.ConnectionSettings);
             });
             services.AddSingleton<DataStoreInterface, DataStoreActivities>();
-            services.AddControllers();
+            // services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Teacher", Version = "v1" });

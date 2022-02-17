@@ -75,8 +75,8 @@ namespace Controller
         public async Task<ActionResult> createUserTestAsync()
         {
             CreateTeacherEventModel TeacherEventModel = new CreateTeacherEventModel{
-                Name = "shomi khan",
-                AboutMe = "i am awesome",
+                Name = "Shomi Khan",
+                AboutMe = "I am always awesome cool",
                 DepartmentName = "EEE",
                 OrganizationName = "SUST"
             };

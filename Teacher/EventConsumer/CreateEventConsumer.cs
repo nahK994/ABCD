@@ -11,25 +11,30 @@ namespace EventConsumer
     {
         // TeachersController _TeachersController;
         DataStoreInterface DataStoreInterface;
-        public CreateEventConsumer(
-            // TeachersController TeachersController
-        DataStoreInterface DataStoreInterface)
-        {
-            // this._TeachersController = TeachersController;
-            this.DataStoreInterface = DataStoreInterface;
-        }
+
+        // public CreateEventConsumer(
+        //     // TeachersController TeachersController
+        // DataStoreInterface DataStoreInterface)
+        // {
+        //     // this._TeachersController = TeachersController;
+        //     this.DataStoreInterface = DataStoreInterface;
+        // }
 
         public async Task Consume(ConsumeContext<CreateTeacherModel> context)
         {
-            Console.WriteLine("HaHa");
-            var data = context.Message;
-            CreateTeacherModel TeacherModel = new CreateTeacherModel{
-                Name = data.Name,
-                AboutMe = data.AboutMe,
-                DepartmentName = data.DepartmentName,
-                OrganizationName = data.OrganizationName
-            };
-            createTeacher(TeacherModel);
+            // Console.WriteLine("HaHa");
+            // var data = context.Message;
+            // CreateTeacherModel TeacherModel = new CreateTeacherModel{
+            //     Name = data.Name,
+            //     AboutMe = data.AboutMe,
+            //     DepartmentName = data.DepartmentName,
+            //     OrganizationName = data.OrganizationName
+            // };
+            await Task.Run(() => {
+                Console.WriteLine("HaHa");
+                Console.WriteLine(context.Message);
+            });
+            // createTeacher(TeacherModel);
             // _TeachersController.createTeacher(TeacherModel);
         }
 
